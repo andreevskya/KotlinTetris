@@ -3,12 +3,7 @@ package ru.tetris
 import java.awt.Color
 import java.awt.Graphics
 
-class GameRender constructor(graphics: Graphics) {
-    var graphics:Graphics
-
-    init {
-        this.graphics = graphics
-    }
+class GameRender constructor(var graphics: Graphics) {
 
     fun drawField(field:Array<IntArray>) {
         graphics.color = Color.BLACK

@@ -82,14 +82,20 @@ class Game constructor(graphics: Graphics, eventListener:GameEventListener?) {
                     return false
                 }
                 for(yy in figure.height - 1 downTo 0) {
-                    for (xx in 0..figure.width - 1) {
-                        if (figure.figure[yy][xx] == GameConsts.CELL_TYPE_BLOCK &&
-                                gameField[figure.y + yy + 1][figure.x + xx] == GameConsts.CELL_TYPE_BLOCK) {
-                            return false
-                        }
-                    }
+                    (0..figure.width - 1)
+                            .filter {
+                                figure.figure[yy][it] == GameConsts.CELL_TYPE_BLOCK &&
+                                        gameField[figure.y + yy + 1][figure.x + it] == GameConsts.CELL_TYPE_BLOCK
+                            }
+                            .forEach { return false }
                 }
                 return true
+            }
+            Direction.LEFT -> {
+
+            }
+            Direction.RIGHT -> {
+
             }
         }
         return false

@@ -1,16 +1,10 @@
 package ru.tetris
 
-class Figure constructor(figure:Array<Array<Int>>, x:Int, y:Int){
-    var x:Int
-    var y:Int
+class Figure constructor(var figure:Array<Array<Int>>, var x: Int, var y:Int){
     var width:Int
     var height:Int
-    var figure:Array<Array<Int>>
 
     init {
-        this.figure = figure
-        this.x = x
-        this.y = y
         width = getFigureWidth(this.figure)
         height = getFigureHeight(this.figure)
     }
@@ -31,7 +25,7 @@ class Figure constructor(figure:Array<Array<Int>>, x:Int, y:Int){
     private fun mirrorY(m:Array<Array<Int>>):Array<Array<Int>> {
         for(yy in 0..m.size - 1) {
             for(xx in 0..(m[0].size - 1) / 2) {
-                var oldR = m[yy][xx]
+                val oldR = m[yy][xx]
                 m[yy][xx] = m[yy][m[0].size - 1 - xx]
                 m[yy][m[0].size - 1 - xx] = oldR
             }
