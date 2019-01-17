@@ -2,7 +2,7 @@ package ru.tetris
 
 import java.awt.Graphics
 
-class Game constructor(graphics: Graphics) {
+class Game constructor(graphics: Graphics, eventListener:GameEventListener?) {
     var render:GameRender = GameRender(graphics)
     var spawner = FigureSpawner()
 
@@ -10,7 +10,14 @@ class Game constructor(graphics: Graphics) {
 
     var figure:Figure? = null
 
+    var gameEventsListener:GameEventListener? = eventListener
+
     init {
+        reset()
+    }
+
+    fun reset() {
+        clear()
         spawnFigure()
     }
 
@@ -28,8 +35,11 @@ class Game constructor(graphics: Graphics) {
                     grow()
                     spawnFigure()
                     if(!canBeMoved(figure!!, Direction.DOWN)) {
-                        clear()
-                        spawnFigure()
+                        if(gameEventsListener != null) {
+                            gameEventsListener!!.onGameOver()
+                        } else {
+                            reset()
+                        }
                     }
                     return
                 }
@@ -91,6 +101,7 @@ class Game constructor(graphics: Graphics) {
     }
 
     private fun grow() {
+        var numRemovedLines = 0
         for(y in 0..gameField.size - 1) {
             var fill = 0
             for(x in 0..gameField[0].size - 1) {
@@ -109,7 +120,9 @@ class Game constructor(graphics: Graphics) {
                     gameField[yy][x] = gameField[yy - 1][x]
                 }
             }
+            ++numRemovedLines
         }
+        gameEventsListener?.onLineCompleted(numRemovedLines)
     }
 
     private fun clear() {
